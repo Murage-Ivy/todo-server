@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   skip_before_action :authorized, only: [:create]
-  #   wrap_parameters format: []
+  wrap_parameters format: []
 
   def create
     @user = User.create!(user_params)
@@ -25,6 +25,11 @@ class UsersController < ApplicationController
   end
 
   def render_unprocessable_entity_response(invalid)
-    render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
+    render json: { errors: [
+      email: invalid.record.full_messages_for(:email),
+      image: invalid.record.full_messages_for(:image),
+      password: invalid.record.full_messages_for(:password),
+      password_confirmation: invalid.record.full_messages_for(:password_confirmation),
+    ] }, status: :unprocessable_entity
   end
 end
