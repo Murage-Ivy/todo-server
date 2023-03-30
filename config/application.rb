@@ -31,7 +31,7 @@ module TodoServer
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.middleware.use ActionDispatch::cookies
+    config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: "user_id"
     config.action_dispatch.cookies_same_site_protection = :strict
     # Only loads a smaller set of middleware suitable for API only apps.

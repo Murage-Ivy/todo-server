@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    include ApplicationController::cookies
+  include ApplicationController::cookies
 
-    before_action :authorized
+  before_action :authorized
 end
