@@ -10,12 +10,18 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(session[:user_id])
+    render json: @user, status: :ok
   end
 
   private
 
   def user_params
     params.permit(:email, :image, :password, :password_confirmation)
+  end
+
+  def render_user_not_found_response
+    render json: { errors: ["User not found"] }, status: :not_found
   end
 
   def render_unprocessable_entity_response(invalid)
