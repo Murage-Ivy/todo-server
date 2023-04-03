@@ -1,4 +1,9 @@
 class TodosController < ApplicationController
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  rescue_from ActiveRecord::RecordNotFound, with: :render_todo_not_found_response
+  #   skip_before_action :authorized, only: [:index, :show]
+  wrap_parameters format: []
+
   def index
     todos = Todo.all
     render json: todos, status: :ok
@@ -34,5 +39,19 @@ class TodosController < ApplicationController
 
   def todo_params
     params.permit(:title, :description, :start_date, :end_date, :status)
+  end
+
+  def render_unprocessable_entity_response
+    render json: {
+             title: invalid.record.errors.full_messages_for(:title),
+             description: invalid.record.errors.full_messages_for(:description),
+             start_date: invalid.record.errors.full_messages_for(:start_date),
+             end_date: invalid.record.errors.full_messages_for(:end_date),
+             status: invalid.record.errors.full_messages_for(:status),
+           }, status: :unprocessable_entity
+  end
+
+  def render_todo_not_found_response
+    render json: { errors: ["Todo not found"] }, status: :not_found
   end
 end
