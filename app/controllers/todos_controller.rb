@@ -41,7 +41,7 @@ class TodosController < ApplicationController
     params.permit(:title, :description, :start_date, :end_date, :status)
   end
 
-  def render_unprocessable_entity_response
+  def render_unprocessable_entity_response(invalid)
     render json: {
              title: invalid.record.errors.full_messages_for(:title),
              description: invalid.record.errors.full_messages_for(:description),
