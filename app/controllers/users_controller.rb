@@ -25,11 +25,10 @@ class UsersController < ApplicationController
   end
 
   def render_unprocessable_entity_response(invalid)
-    render json: { errors: [
-      email: invalid.record.errors.full_messages_for(:email),
-      image: invalid.record.errors.full_messages_for(:image),
-      password: invalid.record.errors.full_messages_for(:password),
-      password_confirmation: invalid.record.errors.full_messages_for(:password_confirmation),
-    ] }, status: :unprocessable_entity
+    render json: {
+             email: invalid.record.errors.full_messages_for(:email),
+             password: invalid.record.errors.full_messages_for(:password),
+             password_confirmation: invalid.record.errors.full_messages_for(:password_confirmation),
+           }, status: :unprocessable_entity
   end
 end
